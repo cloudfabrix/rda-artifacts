@@ -18,23 +18,23 @@ Pre-requisites:
 
 * Add Windows OS Credentials:
 
-Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Integration" --> "Credentials" --> Click on "Add"
+  Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Integration" --> "Credentials" --> Click on "Add"
 
-Select Secret Type as "windows-inventory"
+  Select Secret Type as "windows-inventory"
 
-Enter Name for Windows Credential name.
+  Enter Name for Windows Credential name.
 
-Enter Windows IP (this is for a quick credentials validation only)
+  Enter Windows IP (this is for a quick credentials validation only)
 
-Enter Username
+  Enter Username
 
-Enter Password
+  Enter Password
 
-Leave the rest as defaults (Note: Change these only if WinRM is configured with SSL configuration)
+  Leave the rest as defaults (Note: Change these only if WinRM is configured with SSL configuration)
 
-Select Worker site and Click on "Check Connectivity", if the RDA Worker is able to reach the Windows host and authentication goes through, the status will show as "OK"
+  Select Worker site and Click on "Check Connectivity", if the RDA Worker is able to reach the Windows host and authentication goes through, the status will show as "OK"
 
-Click on "Save" to save the Windwos credentials.
+  Click on "Save" to save the Windwos credentials.
 
 * Create Pstreams for Windows Inventory: (Note: If it is already exist, please ignore)
 
