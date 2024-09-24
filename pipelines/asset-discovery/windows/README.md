@@ -1,14 +1,14 @@
-Pipeline Name: windows_inventory_and_topology_using_winrm_v1.apl
+**Pipeline Name:** windows_inventory_and_topology_using_winrm_v1.apl
 
-About this Pipeline:
+**About this Pipeline:**
 
 It collects Windows OS inventory executing Windows CLI commands over WinRM protocol. For detailed information on each inventory data collection, please refer: https://bot-docs.cloudfabrix.io/Datasource_Integrations/Microsoft-Windows-Server-OS/
 
-Pre-requisites:
+**Pre-requisites:**
 
 * For network port access and user permissions, please refer: https://bot-docs.cloudfabrix.io/Datasource_Integrations/Microsoft-Windows-Server-OS/
 
-* CloudFabrix RDAF Platform:
+* **CloudFabrix RDAF Platform:**
 
   * RDAF Platform running with 3.5 or above version installed with GrapDB database
   * Add Windows OS Credentials
@@ -16,7 +16,7 @@ Pre-requisites:
   * Create a Pstream for Topology Nodes and Edges
   * Create a GraphDB database and collection for Nodes and Edges
 
-* Add Windows OS Credentials:
+* **Add Windows OS Credentials:**
 
     Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Integration" --> "Credentials" --> Click on "Add"
 
@@ -36,18 +36,21 @@ Pre-requisites:
 
     Click on "Save" to save the Windwos credentials.
 
-* Create Pstreams for Windows Inventory: (Note: If it is already exist, please ignore)
+* **Create Pstreams for Windows Inventory:** (Note: If it is already exist, please ignore)
 
     Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Persistent Streams" --> "Persistent Streams" --> Click on "Add"
 
-    Create below Pstreams:
+    **Create below Pstreams:**
 
     Pstream Name: host-os-system-inventory
+
     Pstream Name: host-os-service-inventory
+
     Pstream Name: host-os-netstat-inventory
 
     Attribute Settings: (same for all of the above)
 
+      ```
       {
         "unique_keys": [
             "unique_id"
@@ -59,8 +62,9 @@ Pre-requisites:
             "refresh_interval": "30s"
         }
       }
+      ```
 
-* Create Pstreams for Topology Nodes and Edges: (Note: If it is already exist, please ignore)
+* **Create Pstreams for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
 
     Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Persistent Streams" --> "Persistent Streams" --> Click on "Add"
 
@@ -70,6 +74,7 @@ Pre-requisites:
 
     Attribute Settings: 
 
+      ```
       {
         "unique_keys": [
             "node_id"
@@ -84,11 +89,13 @@ Pre-requisites:
             "refresh_interval": "1s"
         }
       }
+      ```
 
     Pstream Name: cfx_rdaf_topology_edges
 
     Attribute Settings: 
 
+      ```
       {
         "unique_keys": [
             "left_id",
@@ -101,6 +108,7 @@ Pre-requisites:
             "refresh_interval": "1s"
         }
       }
+      ```
 
 * **Create GraphDB for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
 
@@ -109,7 +117,10 @@ Pre-requisites:
     Enter Database Name as "cfx_rdaf_topology" and Click on "Save". It will create the below.
 
     Graph Name as "cfx_rdaf_topology_graph"
+
     Graph Database as "cfx_rdaf_topology"
+
     Graph Collection for Topology Nodes as "cfx_rdaf_topology_nodes"
+
     Graph Collection for Topology Edges as "cfx_rdaf_topology_edges"
 
