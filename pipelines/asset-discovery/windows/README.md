@@ -50,7 +50,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Attribute Settings: (same for all of the above)
 
-      ```
+      
       {
         "unique_keys": [
             "unique_id"
@@ -62,7 +62,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
             "refresh_interval": "30s"
         }
       }
-      ```
+      
 
 * **Create Pstreams for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
 
@@ -74,7 +74,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Attribute Settings: 
 
-      ```
+      
       {
         "unique_keys": [
             "node_id"
@@ -89,13 +89,13 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
             "refresh_interval": "1s"
         }
       }
-      ```
+      
 
     Pstream Name: cfx_rdaf_topology_edges
 
     Attribute Settings: 
 
-      ```
+      
       {
         "unique_keys": [
             "left_id",
@@ -108,7 +108,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
             "refresh_interval": "1s"
         }
       }
-      ```
+      
 
 * **Create GraphDB for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
 
