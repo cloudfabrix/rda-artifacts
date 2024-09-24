@@ -15,6 +15,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
   * Create a Pstream for Windows Inventory
   * Create a Pstream for Topology Nodes and Edges
   * Create a GraphDB database and collection for Nodes and Edges
+  * Create or Update the Windows host ip list dataset
 
 * **Add Windows OS Credentials:**
 
@@ -22,7 +23,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Select Secret Type as "windows-inventory"
 
-    Enter Name for Windows Credential name.
+    Enter Name for Windows Credential name as "windows-inventory"
 
     Enter Windows IP (this is for a quick credentials validation only)
 
@@ -36,7 +37,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Click on "Save" to save the Windwos credentials.
 
-* **Create Pstreams for Windows Inventory:** (Note: If it is already exist, please ignore)
+* **Create Pstreams for Windows Inventory:** (Note: If they are already exist, please ignore)
 
     Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Persistent Streams" --> "Persistent Streams" --> Click on "Add"
 
@@ -64,7 +65,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
       }
       
 
-* **Create Pstreams for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
+* **Create Pstreams for Topology Nodes and Edges:** (Note: If they are already exist, please ignore)
 
     Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Persistent Streams" --> "Persistent Streams" --> Click on "Add"
 
@@ -110,7 +111,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
       }
       
 
-* **Create GraphDB for Topology Nodes and Edges:** (Note: If it is already exist, please ignore)
+* **Create GraphDB for Topology Nodes and Edges:** (Note: If they are already exist, please ignore)
 
     Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Graph DB" --> "Graphs" --> Click on "Add"
 
@@ -123,4 +124,19 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
     Graph Collection for Topology Nodes as "cfx_rdaf_topology_nodes"
 
     Graph Collection for Topology Edges as "cfx_rdaf_topology_edges"
+
+* **Create or Update the Windows host ip list dataset:**
+
+    The inventory pipeline expects the below dataset to exist with specific columns.
+
+    Dataset Name: **asset_discovery_master_list** (csv format)
+    Columns: ip_address,type,port,discovery_scope
+    
+    Sample Data: 192.168.10.10,windows,5985,yes
+
+    Create a CSV file with above columns with Windows host IP list and import it as a dataset in CloudFabrix RDAF Platform.
+
+    Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Datasets" --> "Datasets" --> Click on "Add Dataset"
+
+    Enter the Dataset name as "asset_discovery_master_list", choose CSV file to upload that has above mentioned columns and Click on "Add" button to save the dataset.
 
