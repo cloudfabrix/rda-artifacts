@@ -122,3 +122,20 @@ It collects Linux OS inventory executing CLI commands over SSH protocol. For det
 
     Graph Collection for Topology Edges as "cfx_rdaf_topology_edges"
 
+* **Create or Update the Windows host ip list dataset:**
+
+    The inventory pipeline expects the below dataset to exist with specific columns.
+
+    Dataset Name: **asset_discovery_master_list** (csv format)
+    Columns: ip_address,type,port,discovery_scope
+    
+    Sample Data: 192.168.10.10,linux,22,yes
+
+    Create a CSV file with above columns with Linux host IP list and import it as a dataset in CloudFabrix RDAF Platform.
+
+    Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Datasets" --> "Datasets" --> Click on "Add Dataset"
+
+    Enter the Dataset name as "asset_discovery_master_list", choose CSV file to upload that has above mentioned columns and Click on "Add" button to save the dataset.
+
+
+
