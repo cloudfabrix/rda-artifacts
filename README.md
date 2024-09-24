@@ -1,6 +1,6 @@
 # rda-artifacts
 
-This repository consists RDA pipelines which automates the data collects and process for below use cases (not limted to)
+This repository contains RDA pipelines that automate data collection and processing for the following use cases (not limited to):
 
 * Asset Inventory and Topology
 * Metrics & Logs
