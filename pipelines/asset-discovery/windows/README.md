@@ -17,14 +17,6 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
   * Create a GraphDB database and collection for Nodes and Edges
   * Create or Update the Windows host ip list dataset (i.e. asset_discovery_master_list)
 
-  **Note:** The dataset **asset_discovery_master_list** should have below columns or fields.
-
-    * ip_address (Mandatory)
-    * type (Mandatory: ex value: windows)
-    * port (Optional)
-    * discovery_scope (Mandatory: values: yes or no)
-
-
 * **Add Windows OS Credentials:**
 
     Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Integration" --> "Credentials" --> Click on "Add"
@@ -51,7 +43,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     **Create below Pstreams:**
 
-    Pstream Name: host-os-inventory
+    Pstream Name: host-os-inventory (Note: If it is already exist, please ignore)
 
     Attribute Settings: 
 
@@ -68,7 +60,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
         }
       }
 
-    Pstream Name: network-endpoints-identity-stream (If it was not created already)
+    Pstream Name: network-endpoints-identity-stream (Note: If it is already exist, please ignore)
 
     Attribute Settings:
 
@@ -93,7 +85,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Create below Pstreams:
 
-    Pstream Name: cfx_rdaf_topology_nodes
+    Pstream Name: cfx_rdaf_topology_nodes (Note: If it is already exist, please ignore)
 
     Attribute Settings: 
 
@@ -114,7 +106,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
       }
       
 
-    Pstream Name: cfx_rdaf_topology_edges
+    Pstream Name: cfx_rdaf_topology_edges (Note: If it is already exist, please ignore)
 
     Attribute Settings: 
 
@@ -135,7 +127,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
 * **Create GraphDB for Topology Nodes and Edges:** (Note: If they are already exist, please ignore)
 
-    Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Graph DB" --> "Graphs" --> Click on "Add"
+    Go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Graph DB" --> "Graphs" --> Click on "Add" (Note: If it is already exist, please ignore)
 
     Enter Database Name as "cfx_rdaf_topology" and Click on "Save". It will create the below.
 
@@ -154,6 +146,11 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
     Dataset Name: **asset_discovery_master_list** (csv format)
     Columns: ip_address,type,port,discovery_scope
     
+    * ip_address (Mandatory)
+    * type (Mandatory: ex value: windows)
+    * port (Optional)
+    * discovery_scope (Mandatory: values: yes or no)
+
     Sample Data: 192.168.10.10,windows,5985,yes
 
     Create a CSV file with above columns with Windows host IP list and import it as a dataset in CloudFabrix RDAF Platform.
