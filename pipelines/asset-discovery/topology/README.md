@@ -42,7 +42,7 @@ To visualize the topology data, **Stacks** and **Relationship Maps** need to be 
 
 **Relationship Maps:**
 
-  Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Stacks" --> Click on **Relationship Maps** --> Click on **Add**
+  Login into CloudFabrix RDAF Platform as MSP Admin User, go to "Main Menu" --> "Configuration" --> "RDA Administration" --> "Stacks" --> Click on **Relationship Maps** Tab --> Click on **Add**
 
   * Copy the contents of **relationship_maps.json** file and click on **Save** button
 
