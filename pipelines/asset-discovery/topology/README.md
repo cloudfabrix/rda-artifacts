@@ -1,6 +1,6 @@
 **Topology Configuration:**
 
-To visualize the topology data, below configuration need to be configured
+To visualize the topology data, **Stacks** and **Relationship Maps** need to be configured.
 
   * Create a Stack Definition
   * Create a Relationship map
