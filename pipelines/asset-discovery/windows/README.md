@@ -15,7 +15,15 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
   * Create a Pstream for Windows Inventory
   * Create a Pstream for Topology Nodes and Edges
   * Create a GraphDB database and collection for Nodes and Edges
-  * Create or Update the Windows host ip list dataset
+  * Create or Update the Windows host ip list dataset (i.e. asset_discovery_master_list)
+
+  **Note:** The dataset **asset_discovery_master_list** should have below columns or fields.
+
+    * ip_address (Mandatory)
+    * type (Mandatory: ex value: windows)
+    * port (Optional)
+    * discovery_scope (Mandatory: values: yes or no)
+
 
 * **Add Windows OS Credentials:**
 
