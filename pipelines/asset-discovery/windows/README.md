@@ -35,7 +35,7 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     Select Worker site and Click on "Check Connectivity", if the RDA Worker is able to reach the Windows host and authentication goes through, the status will show as "OK"
 
-    Click on "Save" to save the Windwos credentials.
+    Click on "Save" to save the Windows credentials.
 
 * **Create Pstreams for Windows Inventory:** (Note: If they are already exist, please ignore)
 
@@ -43,19 +43,33 @@ It collects Windows OS inventory executing Windows CLI commands over WinRM proto
 
     **Create below Pstreams:**
 
-    Pstream Name: host-os-system-inventory
+    Pstream Name: host-os-inventory
 
-    Pstream Name: host-os-service-inventory
-
-    Pstream Name: host-os-netstat-inventory
-
-    Attribute Settings: (same for all of the above)
+    Attribute Settings: 
 
       
       {
         "unique_keys": [
             "unique_id"
         ],
+        "search_case_insensitive": true,
+        "_settings": {
+            "number_of_shards": 3,
+            "number_of_replicas": 1,
+            "refresh_interval": "30s"
+        }
+      }
+
+    Pstream Name: network-endpoints-identity-stream (If it was not created already)
+
+    Attribute Settings:
+
+      {
+        "unique_keys": [
+            "unique_id"
+        ],
+        "timestamp": "collection_timestamp",
+        "retention_days": 3,
         "search_case_insensitive": true,
         "_settings": {
             "number_of_shards": 3,
