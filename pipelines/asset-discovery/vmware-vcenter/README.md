@@ -1,9 +1,21 @@
 **Pipelines:**
 
   * vmware_vcenter_source_name_inventory_v1.apl
-  * vmware_vcenter_inventory_pipeline_v1.apl
+  * vmware_vcenter_inventory_pipeline.apl
   * vmware_vcenter_source_name_topology_v1.apl
-  * vmware_vcenter_topology_v1.apl
+  * vmware_vcenter_topology_pipeline.apl
+
+**Note:** Below 2 pipelines are per VMware vCenter. These need to be cloned and updated for every VMware vCenter integration.
+
+  * vmware_vcenter_<source_name>_inventory_v1.apl
+  * vmware_vcenter_<source_name>_topology_v1.apl
+
+  **source_name** should be updated with VMware vCenter credential source name that is created under RDAF Platform's credentials section
+
+  Additionally below parameters to be updated with VMware vCenter credential source name that is created under RDAF Platform's credentials section
+
+  * import_source
+  * vcenter_src_name
 
 **About VMware vCenter Pipelines:**
 
