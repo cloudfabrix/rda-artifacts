@@ -1,0 +1,402 @@
+{
+    "name": "rdaf_topology_relationships",
+    "relation_map": {
+        "VM": {
+            "OUTBOUND": [
+                {
+                    "node_type": "OS_Service",
+                    "path": [
+                        "Host_OS",
+                        "OS_Service"
+                    ]
+                }
+            ],
+            "INBOUND": [
+                {
+                    "node_type": "vCenter",
+                    "path": [
+                        "Hypervisor",
+                        "vSphere_Cluster",
+                        "vCenter"
+                    ]
+                },
+                {
+                    "node_type": "Switch",
+                    "path": [
+                        "vPortgroup",
+                        "vSwitch",
+                        "Switch"
+                    ]
+                },
+                {
+                    "node_type": "APIC_Cluster",
+                    "path": [
+                        "APIC_EPG",
+                        "APIC_AP",
+                        "APIC_Tenant",
+                        "APIC_Cluster"
+                    ]
+                },
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Datastore",
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller",
+                        "Storage_Array"
+                    ]
+                }
+            ]
+        },
+        "Hypervisor": {
+            "INBOUND": [
+                {
+                    "node_type": "vCenter",
+                    "path": [
+                        "vSphere_Cluster",
+                        "vCenter"
+                    ]
+                },
+                {
+                    "node_type": "Switch",
+                    "path": [
+                        "vSwitch",
+                        "Switch"
+                    ]
+                },
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Datastore",
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                }
+            ]
+        },
+        "Datastore": {
+            "ANY": [
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                }
+            ]
+        },
+        "vCenter": {
+            "OUTBOUND": [
+                {
+                    "node_type": "Hypervisor",
+                    "path": [
+                        "Hypervisor",
+                        "vSphere_Cluster"
+                    ]
+                }
+            ]
+        },
+        "Host_OS": {
+            "INBOUND": [
+                {
+                    "node_type": "vCenter",
+                    "path": [
+                        "VM",
+                        "Hypervisor",
+                        "vSphere_Cluster",
+                        "vCenter"
+                    ]
+                },
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "VM",
+                        "Datastore",
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                },
+                {
+                    "node_type": "Storage_Array",
+                    "path": [
+                        "VM",
+                        "Datastore",
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller",
+                        "Storage_Array"
+                    ]
+                },
+                {
+                    "node_type": "vSwitch",
+                    "path": [
+                        "VM",
+                        "vPortgroup",
+                        "vSwitch"
+                    ]
+                },
+                {
+                    "node_type": "Switch",
+                    "path": [
+                        "VM",
+                        "vPortgroup",
+                        "vSwitch",
+                        "Switch"
+                    ]
+                },
+                {
+                    "node_type": "APIC_Cluster",
+                    "path": [
+                        "APIC_EPG",
+                        "APIC_AP",
+                        "APIC_Tenant",
+                        "APIC_Cluster"
+                    ]
+                }
+            ]
+        },
+        "OS_Service": {
+            "INBOUND": [
+                {
+                    "node_type": "vCenter",
+                    "path": [
+                        "Host_OS",
+                        "VM",
+                        "Hypervisor",
+                        "vSphere_Cluster",
+                        "vCenter"
+                    ]
+                },
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Host_OS",
+                        "VM",
+                        "Datastore",
+                        "Storage_LUN",
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                },
+                {
+                    "node_type": "vSwitch",
+                    "path": [
+                        "Host_OS",
+                        "VM",
+                        "vPortgroup",
+                        "vSwitch"
+                    ]
+                },
+                {
+                    "node_type": "Switch",
+                    "path": [
+                        "Host_OS",
+                        "VM",
+                        "vPortgroup",
+                        "vSwitch",
+                        "Switch"
+                    ]
+                }
+            ]
+        },
+        "Storage_LUN": {
+            "OUTBOUND": [
+                {
+                    "node_type": "VM",
+                    "path": [
+                        "Datastore",
+                        "VM"
+                    ]
+                },
+                {
+                    "node_type": "Hypervisor",
+                    "path": [
+                        "Datastore",
+                        "Hypervisor"
+                    ]
+                }
+            ],
+            "INBOUND": [
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Storage_Volume",
+                        "Storage_Pool",
+                        "Storage_Controller",
+                        "Storage_Array"
+                    ]
+                }
+            ]
+        },
+        "Storage_Volume": {
+            "OUTBOUND": [
+                {
+                    "node_type": "VM",
+                    "path": [
+                        "Storage_LUN",
+                        "Datastore",
+                        "VM"
+                    ]
+                },
+                {
+                    "node_type": "Hypervisor",
+                    "path": [
+                        "Storage_LUN",
+                        "Datastore",
+                        "Hypervisor"
+                    ]
+                }
+            ],
+            "INBOUND": [
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                }
+            ]
+        },
+        "Storage_Pool": {
+            "OUTBOUND": [
+                {
+                    "node_type": "Datastore",
+                    "path": [
+                        "Storage_Volume"
+                    ]
+                }
+            ]
+        },
+        "Storage_Controller": {
+            "INBOUND": [
+                {
+                    "node_type": "Storage_Controller",
+                    "path": [
+                        "Storage_Pool",
+                        "Storage_Controller"
+                    ]
+                }
+            ]
+        },
+        "Switch": {
+            "ANY": [
+                {
+                    "node_type": "Switch",
+                    "path": [
+                        "Host_OS",
+                        "Hypervisor",
+                        "Storage_Controller",
+                        "Switch"
+                    ]
+                }
+            ]
+        },
+        "APIC_Spine": {
+            "ANY": [
+                {
+                    "node_type": "APIC_Cluster",
+                    "path": [
+                        "APIC_Leaf",
+                        "APIC_Controller",
+                        "APIC_Cluster"
+                    ]
+                },
+                {
+                    "node_type": "APIC_Spine",
+                    "path": [
+                        "APIC_Leaf",
+                        "APIC_Spine"
+                    ]
+                }
+            ]
+        },
+        "APIC_Leaf": {
+            "ANY": [
+                {
+                    "node_type": "APIC_Controller",
+                    "path": [
+                        "APIC_Controller",
+                        "APIC_Cluster"
+                    ]
+                },
+                {
+                    "node_type": "APIC_Spine",
+                    "path": [
+                        "APIC_Spine"
+                    ]
+                }
+            ]
+        },
+        "APIC_Controller": {
+            "OUTBOUND": [
+                {
+                    "node_type": "APIC_Spine",
+                    "path": [
+                        "APIC_Leaf",
+                        "APIC_Spine"
+                    ]
+                }
+            ]
+        },
+        "APIC_Cluster": {
+            "OUTBOUND": [
+                {
+                    "node_type": "APIC_Spine",
+                    "path": [
+                        "APIC_Leaf",
+                        "APIC_Spine"
+                    ]
+                }
+            ]
+        },
+        "APIC_Tenant": {
+            "OUTBOUND": [
+                {
+                    "node_type": "APIC_EPG",
+                    "path": [
+                        "APIC_AP",
+                        "APIC_EPG"
+                    ]
+                }
+            ],
+            "ANY": [
+                {
+                    "node_type": "APIC_Controller",
+                    "path": [
+                        "APIC_Cluster",
+                        "APIC_Controller"
+                    ]
+                },
+                {
+                    "node_type": "APIC_Spine",
+                    "path": [
+                        "APIC_Cluster",
+                        "APIC_Leaf",
+                        "APIC_Spine"
+                    ]
+                }
+            ]
+        },
+        "APIC_AP": {
+            "INBOUND": [
+                {
+                    "node_type": "APIC_Cluster",
+                    "path": [
+                        "APIC_Tenant",
+                        "APIC_Cluster"
+                    ]
+                }
+            ]
+        }
+    }
+}
