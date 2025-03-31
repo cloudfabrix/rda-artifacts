@@ -7,6 +7,13 @@
 
 **Note:** Below 2 pipelines are per VMware vCenter. These need to be cloned and updated for every VMware vCenter integration.
 
+  **source_name** should be updated with the VMware vCenter credential source name created under the RDAF Platform's credentials section.
+
+  Additionally, the following parameters should be updated with the VMware vCenter credential source name, created under the RDAF Platform's credentials section, within the pipeline.
+
+  * import_source
+  * vcenter_src_name
+
   * vmware_vcenter_<source_name>_inventory_v1.apl
 
   ```
@@ -37,12 +44,6 @@
 
   ```
 
-  **source_name** should be updated with VMware vCenter credential source name that is created under RDAF Platform's credentials section
-
-  Additionally below parameters to be updated with VMware vCenter credential source name that is created under RDAF Platform's credentials section
-
-  * import_source
-  * vcenter_src_name
 
 **About VMware vCenter Pipelines:**
 
