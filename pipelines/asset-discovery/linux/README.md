@@ -1,4 +1,4 @@
-**Pipeline Name:** linux_inventory_and_topology_using_winrm_v1.apl
+**Pipeline Name:** linux_inventory_and_topology_using_ssh_v1.apl
 
 **About this Pipeline:**
 
