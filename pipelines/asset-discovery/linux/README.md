@@ -40,19 +40,32 @@ It collects Linux OS inventory executing CLI commands over SSH protocol. For det
 
     **Create below Pstreams:**
 
-    Pstream Name: host-os-system-inventory
+    Pstream Name: host-os-inventory
 
-    Pstream Name: host-os-service-inventory
+    Attribute Settings:
 
-    Pstream Name: host-os-netstat-inventory
-
-    Attribute Settings: (same for all of the above)
-
-      
       {
         "unique_keys": [
             "unique_id"
         ],
+        "search_case_insensitive": true,
+        "_settings": {
+            "number_of_shards": 3,
+            "number_of_replicas": 1,
+            "refresh_interval": "30s"
+        }
+      }
+
+    Pstream Name: network-endpoints-identity-stream (If it was not created already)
+
+    Attribute Settings:
+
+      {
+        "unique_keys": [
+            "unique_id"
+        ],
+        "timestamp": "collection_timestamp",
+        "retention_days": 3,
         "search_case_insensitive": true,
         "_settings": {
             "number_of_shards": 3,
