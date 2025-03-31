@@ -46,15 +46,72 @@ It collects Linux OS inventory executing CLI commands over SSH protocol. For det
     Attribute Settings:
 
       {
-        "unique_keys": [
-            "unique_id"
-        ],
-        "search_case_insensitive": true,
-        "_settings": {
-            "number_of_shards": 3,
-            "number_of_replicas": 1,
-            "refresh_interval": "30s"
-        }
+          "unique_keys": [
+              "unique_id"
+          ],
+          "timestamp": "collection_timestamp",
+          "retention_days": 5,
+          "retention_purge_extra_filter": "asset_status = 'Purge'",
+          "_settings": {
+              "number_of_shards": 3,
+              "number_of_replicas": 1,
+              "refresh_interval": "30s"
+          },
+          "_mappings": {
+              "properties": {
+                  "host_cpus": {
+                      "type": "double"
+                  },
+                  "host_cores_per_socket": {
+                      "type": "double"
+                  },
+                  "host_cpu_sockets": {
+                      "type": "double"
+                  },
+                  "host_threads_per_core": {
+                      "type": "double"
+                  },
+                  "host_memory_gb": {
+                      "type": "double"
+                  },
+                  "host_os_nic_mtu": {
+                      "type": "double"
+                  },
+                  "host_os_disk_size": {
+                      "type": "double"
+                  },
+                  "host_os_disk_size_gb": {
+                      "type": "double"
+                  },
+                  "host_os_process_pid": {
+                      "type": "double"
+                  },
+                  "host_os_process_ppid": {
+                      "type": "double"
+                  },
+                  "host_os_service_pid": {
+                      "type": "double"
+                  },
+                  "client_port": {
+                      "type": "double"
+                  },
+                  "server_port": {
+                      "type": "double"
+                  },
+                  "host_os_fs_used_perc": {
+                      "type": "double"
+                  },
+                  "host_os_fs_size_gb": {
+                      "type": "double"
+                  },
+                  "host_os_fs_used_gb": {
+                      "type": "double"
+                  },
+                  "host_os_fs_available_gb": {
+                      "type": "double"
+                  }
+              }
+          }
       }
 
     Pstream Name: network-endpoints-identity-stream (Note: If it is already exist, please ignore)
