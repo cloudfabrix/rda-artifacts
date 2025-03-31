@@ -14,7 +14,7 @@
   * import_source
   * vcenter_src_name
 
-  * vmware_vcenter_<source_name>_inventory_v1.apl
+  * vmware_vcenter_<source_name>_inventory_v1.apl (ex: vmware_vcenter_vcenter_prod_inventory_v1.apl)
 
   In the below example, **vcenter_prod** is the vCenter's credential name.
 
@@ -31,7 +31,7 @@
 
   ```
 
-  * vmware_vcenter_<source_name>_topology_v1.apl
+  * vmware_vcenter_<source_name>_topology_v1.apl (ex: vmware_vcenter_vcenter_prod_topology_v1.apl)
 
   ```
   %% stream = no and limit = 0
