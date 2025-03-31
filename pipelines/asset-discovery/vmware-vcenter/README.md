@@ -8,7 +8,34 @@
 **Note:** Below 2 pipelines are per VMware vCenter. These need to be cloned and updated for every VMware vCenter integration.
 
   * vmware_vcenter_<source_name>_inventory_v1.apl
+
+  ```
+  %% stream = no and limit = 0
+
+  %% import_source = "vcenter_prod"
+
+  ## VMware vCenter VM Inventory
+  @c:new-block
+      --> @dm:empty
+      --> @dm:addrow vcenter_src_name='vcenter_prod'
+      --> @exec:run-pipeline name = 'vmware_vcenter_inventory_pipeline'
+
+  ```
+
   * vmware_vcenter_<source_name>_topology_v1.apl
+
+  ```
+  %% stream = no and limit = 0
+
+  %% import_source = "vcenter_prod"
+
+  ## VMware vCenter VM Topology
+  @c:new-block
+      --> @dm:empty
+      --> @dm:addrow vcenter_src_name='vcenter_prod'
+      --> @exec:run-pipeline name = 'vmware_vcenter_topology_pipeline'
+
+  ```
 
   **source_name** should be updated with VMware vCenter credential source name that is created under RDAF Platform's credentials section
 
