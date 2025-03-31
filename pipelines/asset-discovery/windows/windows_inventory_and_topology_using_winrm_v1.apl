@@ -299,7 +299,27 @@
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_bios_uuid' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-windows_host_system_info'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+    --> @exec:end-if
+
+## Host OS Inventory - Virtual Machine mapping Enrichment
+--> @c:new-block
+    --> @dm:empty
+    --> #dm:query-persistent-stream asset_object = 'VirtualMachine' with-input name = 'vmware-vcenter-inventory' & limit = 0 & skip_error = 'yes'
+    --> *exec:if-shape num_rows > 0
+       --> *dm:filter * get vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_bios_uuid,vm_instance_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address
+       --> @dm:save name = 'temp-vcenter-vm-nodes-dict'
+       --> *exec:if-shape num_rows > 0
+          --> @dm:recall name = 'temp-windows_host_system_info'
+          --> *dm:filter collection_status = 'Success'
+          --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_instance_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address'
+          --> @dm:save name = 'windows_os_system_inventory_enrich_dict'
+          --> @rn:write-stream name = 'host-os-inventory'
+       --> @exec:end-if
+    --> @exec:end-if
+    --> *exec:if-shape num_rows = 0
+       --> @dm:recall name = 'temp-windows_host_system_info' & return_empty = 'yes'
+       --> @dm:save name = 'windows_os_system_inventory_enrich_dict'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows Disks Inventory
@@ -319,7 +339,7 @@
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_os_disk_name,host_os_disk_uuid,host_os_disk_serial' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-windows_os_disks_processed'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows Disks FileSystem Inventory
@@ -332,13 +352,13 @@
        --> @dm:eval-multi-proc host_os_fs_size = "round(int(host_os_fs_size) / 1024 / 1024 / 1024, 0) if host_os_fs_size else host_os_fs_size" & _max_procs = 0
        --> @dm:eval-multi-proc host_os_fs_used = "round(int(host_os_fs_used) / 1024 / 1024 / 1024, 0) if host_os_fs_used else host_os_fs_used" & _max_procs = 0
        --> @dm:eval-multi-proc host_os_fs_available = "round(int(host_os_fs_available) / 1024 / 1024 / 1024, 0) if host_os_fs_available else host_os_fs_available" & _max_procs = 0
-       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:eval asset_object = "'Filesystem'"
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_os_disk_mount' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:to-type columns = 'host_os_fs_size,host_os_fs_used,host_os_fs_available,host_os_fs_used_perc' & type = 'int'
        --> @dm:save name = 'temp-windows_os_disk_fs_processed'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows Network Configuration Inventory
@@ -358,7 +378,23 @@
        --> @dm:map from = 'hostname,host_os_ip,host_os_nic_mac,host_os_nic_name,host_os_nic_ip' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-windows_os_network_processed'
        --> @dm:save name = 'windows_os_network_inventory_enrich_dict'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
+    --> @exec:end-if
+
+## Process Windows OS Network Configuration to capture MAC address and IP Address for Topology
+--> @c:new-block
+    --> @dm:recall name = 'temp-windows_os_network_processed' & return_empty = 'yes'
+    --> *exec:if-shape num_rows > 0
+       --> *dm:safe-filter host_os_nic_mac is not empty get hostname as 'asset_name',host_os_ip as 'inventory_source',host_os_nic_mac as 'endpoint_address',host_os_nic_ip as 'ip_address',host_os_nic_name as 'interface_name',host_bios_uuid,collection_timestamp
+       --> @dm:eval asset_type = "'Host_OS'" & endpoint_address_type = "'MAC'"
+       --> @dm:map attr = 'endpoint_address' & func = 'strip'
+       --> @dm:map from = 'asset_name,inventory_source,host_bios_uuid' & to = 'node_id' & func = 'join' & sep = '_'
+       --> @dm:map from = 'inventory_source,interface_name,endpoint_address_type,endpoint_address,ip_address' & to = 'unique_id' & func = 'join' & sep = '_'
+       --> @dm:selectcolumns exclude = "^host_bios_uuid$"
+       --> @dm:fixnull-regex columns = '.*' & value = 'Not Available' & apply_for_empty = 'yes'
+       --> @dm:dedup columns = 'unique_id'
+       --> @dm:save name = 'temp-windows_os_network_mac_ip_processed'
+       --> @rn:write-stream name = 'network-endpoints-identity-stream'
     --> @exec:end-if
 
 ## Process Windows Installed Applications
@@ -367,12 +403,12 @@
     --> *exec:if-condition collection_status = 'Success'
        --> *dm:safe-filter DisplayName is not None get DisplayName as 'host_os_app_name',DisplayVersion as 'host_os_app_version',InstallDate as 'host_os_app_install_date',Publisher as 'host_os_app_vendor',InstallLocation as 'host_os_app_install_path',collection_status,reason,collection_timestamp,collection_duration,source_ip as 'host_os_ip'
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms' & _max_procs = 0
-       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:eval asset_object = "'Software'"
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_os_app_name,host_os_app_version' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-windows_os_software_packages_processed'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows OS Processes
@@ -385,12 +421,12 @@
        --> @dm:to-type columns = 'host_os_process_pid,host_os_process_ppid' & type = 'int'
        --> @dm:map-multi-proc attr = 'host_os_process_pid' & func = 'strip' & _max_procs = 0
        --> @dm:map-multi-proc attr = 'host_os_process_ppid' & func = 'strip' & _max_procs = 0
-       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:eval asset_object = "'Process'"
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_os_process_name,host_os_process_pid,host_os_process_ppid' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-windows_os_processes_processed'
-       --> @rn:write-stream name = 'host-os-service-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows OS Services
@@ -402,13 +438,13 @@
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms' & _max_procs = 0
        --> @dm:to-type columns = 'host_os_service_pid' & type = 'int'
        --> @dm:map-multi-proc attr = 'host_os_service_pid' & func = 'strip' & _max_procs = 0
-       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_bios_uuid,host_machine_vendor'
+       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:eval asset_object = "'Service'"
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_os_service_name,host_os_service_description' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:dedup columns = 'unique_id'
        --> @dm:save name = 'temp-windows_os_services_processed'
-       --> @rn:write-stream name = 'host-os-service-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Windows Netstat TCP/UDP Connections
@@ -427,7 +463,7 @@
        --> @dm:map-multi-proc attr = 'connection_protocol' & func = 'strip' & _max_procs = 4
        --> @dm:map-multi-proc attr = 'connection_state' & func = 'strip' & _max_procs = 4
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms' & _max_procs = 0
-       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-windows_host_system_info' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:to-type columns = 'local_port,remote_port,host_os_process_pid' & type = 'int'
        --> @dm:save name = 'temp-windows_os_netstat_processed'
     --> @exec:end-if
@@ -451,7 +487,7 @@
        --> @dm:map from = 'host_os_ip,local_ip_address,local_port,host_os_process_name,host_os_process_pid,connection_protocol' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:dedup columns = 'unique_id'
        --> @dm:save name = 'temp-windows_netstat_server_port_dict'
-       --> @rn:write-stream name = 'host-os-netstat-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Step-02 - Establish Client - Server Relationship
@@ -481,23 +517,8 @@
           --> @dm:map from = 'client_ip_address,client_port,server_ip_address,server_port,connection_state,connection_protocol' & to = 'unique_id' & func = 'join' & sep = '_'
           --> @dm:dedup columns = 'unique_id'
           --> @dm:save name = 'temp-windows_netstat_client_server_dict'
-          --> @rn:write-stream name = 'host-os-netstat-inventory'
+          --> @rn:write-stream name = 'host-os-inventory'
        --> @exec:end-if
-    --> @exec:end-if
-
-## Host OS Inventory - Virtual Machine mapping Enrichment
---> @c:new-block
-    --> @dm:empty
-    --> @dm:addrow name = 'cfx_rdaf_topology_nodes' & limit = 0
-    --> #dm:query-persistent-stream node_type = 'VM'
-    --> *dm:filter * get vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_bios_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address,node_id,node_label
-    --> @dm:save name = 'temp-vcenter-vm-nodes-dict'
-    --> *exec:if-shape num_rows > 0
-       --> @dm:recall name = 'temp-windows_host_system_info'
-       --> *dm:filter collection_status = 'Success'
-       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vm_name,vm_power_state,vm_ip_address,vm_additional_ips,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address'
-       --> @rn:write-stream name = 'host-os-system-inventory'
-       --> @dm:save name = 'windows_os_system_inventory_enrich_dict'
     --> @exec:end-if
 
 ## Host OS Topology Nodes + VMware Virtual Machine Node ID Lookup Enrichment
@@ -506,7 +527,10 @@
     --> *exec:if-shape num_rows > 0
        --> @dm:recall name = 'temp-windows_host_system_info' & return_empty = 'yes'
        --> *dm:safe-filter collection_status = 'Success'
-       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'node_id,node_label' & enrich_cols_as = 'vm_node_id,vm_node_label'
+       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vcenter_address,vm_name,vm_instance_uuid'
+       --> @dm:map from = 'vcenter_address,vm_name,vm_instance_uuid' & to = 'vm_node_id' & func = 'join' & sep = '_'
+       --> @dm:map from = 'vm_name' & to = 'vm_node_label'
+       --> @dm:selectcolumns exclude = '^vcenter_address$|^vm_name$|^vm_instance_uuid$'
        --> @dm:eval layer = "'Compute'"
        --> @dm:eval node_type = "'Host_OS'"
        --> @dm:eval iconURL = "'Host'"
@@ -575,7 +599,7 @@
     --> @dm:addrow inventory_source = 'windows_os_system_inventory'
     --> @dm:map to = 'collection_timestamp' & func = 'time_now'
     --> @dm:map from = 'collection_timestamp' & to = 'topology_ingestion_id' & func = 'md5'
-    --> @dm:save name = 'temp-topology-edges-ingestion-id-dict'
+    --> @dm:save name = 'temp-topology-system-edges-ingestion-id-dict'
 
 ## Host OS Node Topology - Edges
 --> @c:new-block
@@ -591,7 +615,7 @@
     --> *dm:filter left_label is not empty
     --> *dm:filter right_label is not empty
     --> @dm:dedup columns = 'left_id,right_id'
-    --> @dm:enrich dict = 'temp-topology-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
+    --> @dm:enrich dict = 'temp-topology-system-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
     --> *dm:filter * get left_label,left_id,left_node_type,relation_type,right_id,right_label,right_node_type,inventory_source,topology_ingestion_id,collection_timestamp
     --> @dm:save name = 'temp-host-os-nodes-topology-edges'
     --> @rn:write-stream name = 'cfx_rdaf_topology_edges'
@@ -603,7 +627,7 @@
     --> @dm:addrow inventory_source = 'windows_os_services_inventory'
     --> @dm:map to = 'collection_timestamp' & func = 'time_now'
     --> @dm:map from = 'collection_timestamp' & to = 'topology_ingestion_id' & func = 'md5'
-    --> @dm:save name = 'temp-topology-edges-ingestion-id-dict'
+    --> @dm:save name = 'temp-topology-service-edges-ingestion-id-dict'
 
 ## Host OS Service Node Topology - Edges
 --> @c:new-block
@@ -619,10 +643,62 @@
     --> *dm:filter left_label is not empty
     --> *dm:filter right_label is not empty
     --> @dm:dedup columns = 'left_id,right_id'
-    --> @dm:enrich dict = 'temp-topology-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
+    --> @dm:enrich dict = 'temp-topology-service-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
     --> *dm:filter * get left_label,left_id,left_node_type,relation_type,right_id,right_label,right_node_type,inventory_source,topology_ingestion_id,collection_timestamp
     --> @dm:save name = 'temp-host-os-services-nodes-topology-edges'
     --> @rn:write-stream name = 'cfx_rdaf_topology_edges'
     --> @graph:insert-edges dbname = 'cfx_rdaf_topology' & nodes_collection = 'cfx_rdaf_topology_nodes' & edges_collection = 'cfx_rdaf_topology_edges' & left_id = 'left_id' & right_id = 'right_id'
 
+## Delete Stale Windows OS Topology Edges
+--> @c:new-block
+    --> @dm:empty
+    --> @dm:sleep seconds = 60
+
+## Delete Stale Windows OS System Topology Edges from Pstream
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-system-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> #dm:pstream-delete-data-by-query topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}' with-input name = 'cfx_rdaf_topology_edges' & timeout = 300
+          --> @dm:save name = 'temp-windows_system_deleted_edges'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Windows OS System Topology Edges from GraphDB
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-system-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> @graph:delete-by-query dbname = 'cfx_rdaf_topology' & collection = 'cfx_rdaf_topology_edges' & delete_query = "topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}'"
+          --> @dm:save name = 'temp-windows_system_deleted_edges_from_graphdb'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Windows OS Service Topology Edges from Pstream
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-service-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> #dm:pstream-delete-data-by-query topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}' with-input name = 'cfx_rdaf_topology_edges' & timeout = 300
+          --> @dm:save name = 'temp-windows_service_deleted_edges'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Windows OS Service Topology Edges from GraphDB
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-service-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> @graph:delete-by-query dbname = 'cfx_rdaf_topology' & collection = 'cfx_rdaf_topology_edges' & delete_query = "topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}'"
+          --> @dm:save name = 'temp-windows_service_deleted_edges_from_graphdb'
+       --> @exec:end-loop
+    --> @exec:end-if
 
