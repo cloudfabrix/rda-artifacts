@@ -16,6 +16,8 @@
 
   * vmware_vcenter_<source_name>_inventory_v1.apl
 
+  In the below example, **vcenter_prod** is the vCenter's credential name.
+
   ```
   %% stream = no and limit = 0
 
