@@ -25,7 +25,7 @@
 --> @c:data-loop name = "linux-system-details" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:system-info column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = "120" & cli_timeout = "100"
+    --> @$linux_src_name:system-info column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -50,7 +50,7 @@
 --> @c:data-loop name = "linux-disk-details" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:disks column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:disks column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -75,7 +75,7 @@
 --> @c:data-loop name = "linux-disk-fs-details" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:disk-usage column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:disk-usage column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -100,7 +100,7 @@
 --> @c:data-loop name = "linux-network-details" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:network-config column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:network-config column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -125,7 +125,7 @@
 --> @c:data-loop name = "linux-software-packages" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:software-packages column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:software-packages column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -150,7 +150,7 @@
 --> @c:data-loop name = "linux-os-processes" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:processes column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:processes column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -175,7 +175,7 @@
 --> @c:data-loop name = "linux-os-services" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:services column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:services column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -200,7 +200,7 @@
 --> @c:data-loop name = "linux-os-services" & dataset = 'temp-linux_inventory_source_info' & columns = 'linux_src_name'
     --> @dm:recall name = 'temp-linux_inventory_ip_list'
     --> *dm:safe-filter ip_address is not Empty
-    --> @$linux_src_name:netstat column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '120' & cli_timeout = '100'
+    --> @$linux_src_name:netstat column_name='ip_address' & concurrent_discovery = '100' & connect_timeout = '600' & cli_timeout = '150'
     --> *exec:if-condition collection_status != 'Success'
        --> *dm:safe-filter * get source_ip as 'asset_id',collection_status,collection_timestamp,reason
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
@@ -254,14 +254,35 @@
        --> @dm:map to = 'asset_status' & func = 'fixed' & value = 'Active'
        --> @dm:map from = 'hostname,host_os_ip,host_bios_uuid' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-linux_system_processed_inventory'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+    --> @exec:end-if
+
+## Host OS Inventory - Virtual Machine mapping Enrichment
+--> @c:new-block
+    --> @dm:empty
+    --> #dm:query-persistent-stream asset_object = 'VirtualMachine' with-input name = 'vmware-vcenter-inventory' & limit = 0 & skip_error = 'yes'
+    --> *exec:if-shape num_rows > 0
+       --> *dm:safe-filter * get vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_bios_uuid,vm_instance_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address
+       --> @dm:save name = 'temp-vcenter-vm-nodes-dict'
+       --> *exec:if-shape num_rows > 0
+          --> @dm:recall name = 'temp-linux_system_processed_inventory' & return_empty = 'yes'
+          --> *dm:safe-filter collection_status = 'Success'
+          --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_instance_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address'
+          --> @dm:save name = 'temp-linux_os_system_inventory_enrich_dict'
+          --> @dm:save name = 'linux_os_system_inventory_enrich_dict'
+          --> @rn:write-stream name = 'host-os-inventory'
+       --> @exec:end-if
+    --> @exec:end-if
+    --> *exec:if-shape num_rows = 0
+       --> @dm:recall name = 'temp-linux_system_processed_inventory' & return_empty = 'yes'
+       --> @dm:save name = 'linux_os_system_inventory_enrich_dict'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Linux OS Disks Inventory
 --> @c:new-block
     --> @dm:recall name = 'temp-linux_os_disks_inventory' & return_empty = 'yes'
     --> *exec:if-condition collection_status = 'Success'
-       --> *dm:safe-filter TYPE = 'disk' and NAME != 'fd0' get source_ip as 'host_os_ip',NAME as 'host_os_disk_name',SIZE as 'host_os_disk_size',STATE as 'host_os_disk_state',MODEL as 'host_os_disk_model',SERIAL as 'host_os_disk_serial',UUID as 'host_os_disk_uuid',WWN as 'host_os_disk_wwn',VENDOR as 'host_os_disk_vendor',MOUNTPOINT as 'host_os_disk_mount',LABEL as 'host_os_disk_label',FSTYPE as 'host_os_disk_fstype',collection_status,collection_timestamp,collection_duration,reason
+       --> *dm:safe-filter (TYPE = 'disk' and NAME != 'fd0') or MODEL contains 'disk' get source_ip as 'host_os_ip',NAME as 'host_os_disk_name',SIZE as 'host_os_disk_size',STATE as 'host_os_disk_state',MODEL as 'host_os_disk_model',SERIAL as 'host_os_disk_serial',UUID as 'host_os_disk_uuid',WWN as 'host_os_disk_wwn',VENDOR as 'host_os_disk_vendor',MOUNTPOINT as 'host_os_disk_mount',LABEL as 'host_os_disk_label',FSTYPE as 'host_os_disk_fstype',collection_status,collection_timestamp,collection_duration,reason
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms' & _max_procs = 0
        --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:map attr = 'host_os_disk_wwn' & func = 'lower'
@@ -277,7 +298,7 @@
        --> @dm:add-missing-columns columns = "asset_status" & value="Active"
        --> @dm:map from = 'hostname,host_os_ip,host_os_disk_name,host_os_disk_uuid,host_os_disk_serial' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-linux_os_disks_processed'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Linux OS Disk FileSystem Inventory
@@ -286,7 +307,7 @@
     --> *exec:if-condition collection_status = 'Success'
        --> *dm:safe-filter type does not contain 'tmpfs' and type does not contain 'squashfs' get source_ip as 'host_os_ip',filesystem as 'host_os_disk_volume',mounted_on as 'host_os_disk_mount',type as 'host_os_fs_type',size as 'host_os_fs_size',used as 'host_os_fs_used',available as 'host_os_fs_available',use_percent as 'host_os_fs_used_perc',collection_timestamp,collection_status,collection_duration,reason
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms' & _max_procs = 0
-       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:grok column = 'host_os_fs_size' & pattern = "%{NUMBER:host_os_fs_size_temp}"
        --> @dm:grok column = 'host_os_fs_available' & pattern = "%{NUMBER:host_os_fs_available_temp}"
        --> @dm:grok column = 'host_os_fs_used' & pattern = "%{NUMBER:host_os_fs_used_temp}"
@@ -304,7 +325,8 @@
        --> @dm:save name = 'temp-linux_os_disk_usage_processed'
        --> @dm:to-type columns = 'host_os_fs_used_perc' & type = 'int'
        --> @dm:selectcolumns exclude = '^host_os_fs_size_bytes$|^host_os_fs_available_bytes$|^host_os_fs_used_bytes$|^host_os_fs_used_temp$|^host_os_fs_size_temp$|^host_os_fs_available_temp$|^meta_grok_message$'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @dm:save name = 'temp-linux_os_disk_file_system_processed'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Linux OS Network Configuration
@@ -325,7 +347,23 @@
        --> @dm:map from = 'hostname,host_os_ip,host_os_nic_mac,host_os_nic_name,host_os_nic_ip' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-linux_os_network_config_processed'
        --> @dm:save name = 'linux_os_network_inventory_enrich_dict'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
+    --> @exec:end-if
+
+## Process Linux OS Network Configuration to capture MAC address and IP Address for Topology
+--> @c:new-block
+    --> @dm:recall name = 'temp-linux_os_network_config_processed' & return_empty = 'yes'
+    --> *exec:if-shape num_rows > 0
+       --> *dm:safe-filter host_os_nic_mac is not empty get hostname as 'asset_name',host_os_ip as 'inventory_source',host_os_nic_mac as 'endpoint_address',host_os_nic_ip as 'ip_address',host_os_nic_name as 'interface_name',host_bios_uuid,collection_timestamp
+       --> @dm:eval asset_type = "'Host_OS'" & endpoint_address_type = "'MAC'"
+       --> @dm:map attr = 'endpoint_address' & func = 'strip'
+       --> @dm:map from = 'asset_name,inventory_source,host_bios_uuid' & to = 'node_id' & func = 'join' & sep = '_'
+       --> @dm:map from = 'inventory_source,interface_name,endpoint_address_type,endpoint_address,ip_address' & to = 'unique_id' & func = 'join' & sep = '_'
+       --> @dm:selectcolumns exclude = "^host_bios_uuid$"
+       --> @dm:fixnull-regex columns = '.*' & value = 'Not Available' & apply_for_empty = 'yes'
+       --> @dm:dedup columns = 'unique_id'
+       --> @dm:save name = 'temp-linux_os_network_mac_ip_processed'
+       --> @rn:write-stream name = 'network-endpoints-identity-stream'
     --> @exec:end-if
 
 ## Process Linux OS Software Packages Inventory
@@ -337,25 +375,26 @@
           --> @dm:selectcolumns exclude = '^host_os_ip$|^host_os_vendor$'
           --> *dm:safe-filter * get Package as 'host_os_app_name',Version as 'host_os_app_version',Provides as 'host_os_app_package',Description as 'host_os_app_description',Architecture as 'host_os_app_arch',Maintainer as 'host_os_app_vendor',Status as 'host_os_app_install_status',collection_status,reason,collection_timestamp,collection_duration,source_ip as 'host_os_ip'
           --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr'
-          --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+          --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
           --> @dm:eval asset_object = "'Software'"
           --> @dm:map to  = 'asset_status' & func = 'fixed' & value = 'Active'
           --> @dm:map from = 'hostname,host_os_ip,host_os_app_name,host_os_app_version' & to = 'unique_id' & func = 'join' & sep = '_'
           --> @dm:dedup columns = 'unique_id'
           --> @dm:save name = 'temp-linux_ubuntu_software_packages_processed_success'
-          --> @rn:write-stream name = 'host-os-system-inventory'
+          --> @rn:write-stream name = 'host-os-inventory'
        --> @exec:end-if
        --> *exec:if-condition host_os_vendor != 'Ubuntu'
           --> *dm:safe-filter * get Name as 'host_os_app_name',Version as 'host_os_app_version',Source_RPM as 'host_os_app_package',Description as 'host_os_app_description',Architecture as 'host_os_app_arch',Vendor as 'host_os_app_vendor',License as 'host_os_app_license',Group as 'host_os_app_group',Install_Date as 'host_os_app_install_date',collection_status,reason,collection_timestamp,collection_duration,source_ip as 'host_os_ip'
           --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr'
-          --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+          --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
           --> @dm:add-missing-columns columns = "asset_object" & value="Software"
           --> @dm:add-missing-columns columns = "asset_status" & value="Active"
           --> @dm:map from = 'hostname,host_os_ip,host_os_app_name,host_os_app_version' & to = 'unique_id' & func = 'join' & sep = '_'
           --> @dm:save name = 'temp-linux_software_packages_processed_success'
           --> *dm:safe-filter host_os_app_name is not empty and host_os_app_version is not empty
           --> @dm:dedup columns = 'unique_id'
-          --> @rn:write-stream name = 'host-os-system-inventory'
+          --> @dm:save name = 'temp-linux_software_packages_deduped_data'
+          --> @rn:write-stream name = 'host-os-inventory'
        --> @exec:end-if
     --> @exec:end-if
 
@@ -365,12 +404,12 @@
     --> *exec:if-condition collection_status = 'Success'
        --> *dm:safe-filter * get source_ip as 'host_os_ip',exe as 'host_os_process_name',pid as 'host_os_process_pid',ppid as 'host_os_process_ppid',collection_timestamp,collection_status,collection_duration,reason
        --> @dm:change-time-format columns = 'collection_timestamp' & from_format = 'ms' & to_format = 'datetimestr'
-       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:eval asset_object = "'Process'"
        --> @dm:add-missing-columns columns = "asset_status" & value="Active"
        --> @dm:map from = 'hostname,host_os_ip,host_os_process_name,host_os_process_pid,host_os_process_ppid' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-linux_os_processes_processed'
-       --> @rn:write-stream name = 'host-os-service-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Process Linux OS Services Inventory
@@ -388,7 +427,7 @@
        --> @dm:add-missing-columns columns = "asset_status" & value="Active"
        --> @dm:map from = 'hostname,host_os_ip,host_os_service_name' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:save name = 'temp-linux_os_services_processed'
-       --> @rn:write-stream name = 'host-os-service-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Collect and process Linux OS Netstat data
@@ -401,7 +440,7 @@
        --> *dm:safe-filter * get local_address as 'local_ip_address',local_port as 'local_port',foreign_address as 'remote_ip_address',foreign_port as 'remote_port',transport_protocol as 'connection_protocol',program_name as 'host_os_process_name',pid as 'host_os_process_pid',state as 'connection_state',collection_status,reason,collection_timestamp,collection_duration,source_ip as 'host_os_ip'
        --> @dm:copy-columns from = 'local_ip_address,local_port,remote_ip_address,remote_port,connection_protocol' & to = 'local_ip_address,local_port,remote_ip_address,remote_port,connection_protocol' & func = 'strip'
        --> @dm:map-multi-proc attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & _max_procs = 0
-       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor'
+       --> @dm:enrich dict='temp-linux_system_processed_inventory' & src_key_cols = 'host_os_ip' & dict_key_cols = 'host_os_ip' & enrich_cols = 'host_os_vendor,hostname,host_machine_type,host_os_version,host_machine_vendor,host_bios_uuid'
        --> @dm:to-type columns = 'local_port,remote_port,host_os_process_pid' & type = 'int'
        --> @dm:save name = 'temp-linux_os_netstat_processed'
     --> @exec:end-if
@@ -425,7 +464,7 @@
        --> @dm:map from = 'host_os_ip,local_ip_address,local_port,host_os_process_name,host_os_process_pid,connection_protocol' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:dedup columns = 'unique_id'
        --> @dm:save name = 'temp-linux_netstat_server_port_dict'
-       --> @rn:write-stream name = 'host-os-netstat-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Step-02 - Establish Client - Server Relationship
@@ -454,31 +493,19 @@
        --> @dm:map from = 'client_ip_address,client_port,server_ip_address,server_port,connection_state,connection_protocol' & to = 'unique_id' & func = 'join' & sep = '_'
        --> @dm:dedup columns = 'unique_id'
        --> @dm:save name = 'temp-linux_netstat_client_server_dict'
-       --> @rn:write-stream name = 'host-os-netstat-inventory'
-    --> @exec:end-if
-
-## Host OS Inventory - Virtual Machine mapping Enrichment
---> @c:new-block
-    --> @dm:empty
-    --> @dm:addrow name = 'cfx_rdaf_topology_nodes' & limit = 0
-    --> #dm:query-persistent-stream node_type = 'VM'
-    --> *dm:safe-filter * get vm_name,vm_power_state,vm_ip_address,vm_additional_ips,vm_bios_uuid,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address,node_id,node_label
-    --> @dm:save name = 'temp-vcenter-vm-nodes-dict'
-    --> *exec:if-shape num_rows > 0
-       --> @dm:recall name = 'temp-linux_system_processed_inventory' & return_empty = 'yes'
-       --> *dm:safe-filter collection_status = 'Success'
-       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vm_name,vm_power_state,vm_ip_address,vm_additional_ips,esxi_host,esxi_cluster,datacenter,datastore_name,vswitch_portgroup,vcenter_name,vcenter_address'
-       --> @dm:save name = 'linux_os_system_inventory_enrich_dict'
-       --> @rn:write-stream name = 'host-os-system-inventory'
+       --> @rn:write-stream name = 'host-os-inventory'
     --> @exec:end-if
 
 ## Host OS Topology Nodes + VMware Virtual Machine Node ID Lookup Enrichment
 --> @c:new-block
-    --> @dm:recall name = 'temp-vcenter-vm-nodes-dict'
+    --> @dm:recall name = 'temp-vcenter-vm-nodes-dict' & return_empty = 'yes'
     --> *exec:if-shape num_rows > 0
        --> @dm:recall name = 'temp-linux_system_processed_inventory' & return_empty = 'yes'
        --> *dm:safe-filter collection_status = 'Success'
-       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'node_id,node_label' & enrich_cols_as = 'vm_node_id,vm_node_label'
+       --> @dm:enrich dict = 'temp-vcenter-vm-nodes-dict' & src_key_cols = 'host_bios_uuid' & dict_key_cols = 'vm_bios_uuid' & enrich_cols = 'vcenter_address,vm_name,vm_instance_uuid'
+       --> @dm:map from = 'vcenter_address,vm_name,vm_instance_uuid' & to = 'vm_node_id' & func = 'join' & sep = '_'
+       --> @dm:map from = 'vm_name' & to = 'vm_node_label'
+       --> @dm:selectcolumns exclude = '^vcenter_address$|^vm_name$|^vm_instance_uuid$'
        --> @dm:eval layer = "'Compute'"
        --> @dm:eval node_type = "'Host_OS'"
        --> @dm:eval iconURL = "'Host'"
@@ -532,7 +559,7 @@
 
 ## Host OS Nodes to VMware VM Relationship
 --> @c:new-block
-    --> @dm:recall name = 'temp-linux_system_vm_info_nodes'
+    --> @dm:recall name = 'temp-linux_system_vm_info_nodes' & return_empty = 'yes'
     --> *dm:safe-filter vm_node_id is not empty
     --> *exec:if-shape num_rows > 0
        --> *dm:safe-filter * get vm_node_id as 'left_id',vm_node_label as 'left_label',node_id as 'right_id',node_label as 'right_label',node_type as 'right_node_type'
@@ -547,7 +574,7 @@
     --> @dm:addrow inventory_source = 'linux_system_info'
     --> @dm:map to = 'collection_timestamp' & func = 'time_now'
     --> @dm:map from = 'collection_timestamp' & to = 'topology_ingestion_id' & func = 'md5'
-    --> @dm:save name = 'temp-topology-edges-ingestion-id-dict'
+    --> @dm:save name = 'temp-topology-system-edges-ingestion-id-dict'
 
 ## Host OS Node Topology - Edges
 --> @c:new-block
@@ -563,7 +590,7 @@
     --> *dm:safe-filter left_label is not empty
     --> *dm:safe-filter right_label is not empty
     --> @dm:dedup columns = 'left_id,right_id'
-    --> @dm:enrich dict = 'temp-topology-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
+    --> @dm:enrich dict = 'temp-topology-system-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
     --> *dm:safe-filter * get left_label,left_id,left_node_type,relation_type,right_id,right_label,right_node_type,inventory_source,topology_ingestion_id,collection_timestamp
     --> @dm:save name = 'temp-host-os-nodes-topology-edges'
     --> @rn:write-stream name = 'cfx_rdaf_topology_edges'
@@ -575,7 +602,7 @@
     --> @dm:addrow inventory_source = 'linux_services_info'
     --> @dm:map to = 'collection_timestamp' & func = 'time_now'
     --> @dm:map from = 'collection_timestamp' & to = 'topology_ingestion_id' & func = 'md5'
-    --> @dm:save name = 'temp-topology-edges-ingestion-id-dict'
+    --> @dm:save name = 'temp-topology-service-edges-ingestion-id-dict'
 
 ## Host OS Node Topology - Edges
 --> @c:new-block
@@ -591,10 +618,61 @@
     --> *dm:safe-filter left_label is not empty
     --> *dm:safe-filter right_label is not empty
     --> @dm:dedup columns = 'left_id,right_id'
-    --> @dm:enrich dict = 'temp-topology-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
+    --> @dm:enrich dict = 'temp-topology-service-edges-ingestion-id-dict' & src_key_cols = 'inventory_source' & dict_key_cols = 'inventory_source' & enrich_cols = 'topology_ingestion_id'
     --> *dm:safe-filter * get left_label,left_id,left_node_type,relation_type,right_id,right_label,right_node_type,inventory_source,topology_ingestion_id,collection_timestamp
     --> @dm:save name = 'temp-host-os-services-nodes-topology-edges'
     --> @rn:write-stream name = 'cfx_rdaf_topology_edges'
     --> @graph:insert-edges dbname = 'cfx_rdaf_topology' & nodes_collection = 'cfx_rdaf_topology_nodes' & edges_collection = 'cfx_rdaf_topology_edges' & left_id = 'left_id' & right_id = 'right_id'
 
+## Delete Stale Linux OS Topology Edges
+--> @c:new-block
+    --> @dm:empty
+    --> @dm:sleep seconds = 60
 
+## Delete Stale Linux OS System Topology Edges from Pstream
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-system-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> #dm:pstream-delete-data-by-query topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}' with-input name = 'cfx_rdaf_topology_edges' & timeout = 300
+          --> @dm:save name = 'temp-linux_system_deleted_edges'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Linux OS System Topology Edges from GraphDB
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-system-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> @graph:delete-by-query dbname = 'cfx_rdaf_topology' & collection = 'cfx_rdaf_topology_edges' & delete_query = "topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}'"
+          --> @dm:save name = 'temp-linux_system_deleted_edges_from_graphdb'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Linux OS Service Topology Edges from Pstream
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-service-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> #dm:pstream-delete-data-by-query topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}' with-input name = 'cfx_rdaf_topology_edges' & timeout = 300
+          --> @dm:save name = 'temp-linux_service_deleted_edges'
+       --> @exec:end-loop
+    --> @exec:end-if
+
+## Delete Stale Linux OS Service Topology Edges from GraphDB
+--> @c:new-block
+    --> @dm:recall name = 'temp-topology-service-edges-ingestion-id-dict' & return_empty = 'yes'
+    --> *dm:safe-filter topology_ingestion_id is not empty & inventory_source is not empty
+    --> *exec:if-shape num_rows > 0
+       --> @dm:dedup columns = 'topology_ingestion_id,inventory_source'
+       --> @exec:for-loop num_rows = 1
+          --> @graph:delete-by-query dbname = 'cfx_rdaf_topology' & collection = 'cfx_rdaf_topology_edges' & delete_query = "topology_ingestion_id != '{{row.topology_ingestion_id}}' & inventory_source = '{{row.inventory_source}}'"
+          --> @dm:save name = 'temp-linux_service_deleted_edges_from_graphdb'
+       --> @exec:end-loop
+    --> @exec:end-if
