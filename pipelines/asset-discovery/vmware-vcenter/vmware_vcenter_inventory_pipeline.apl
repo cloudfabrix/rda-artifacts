@@ -276,7 +276,6 @@
                disk_unit_num as 'vm_disk_number',
                disk_writeThrough as 'vm_disk_writethrough',
                disk_compatibilityMode as 'vm_disk_compatibility_mode',
-               disk_diskMode as 'vm_disk_mode',
                disk_lunUuid as 'vm_disk_lun_uuid',
                numEthernetCards as 'vm_nics',
                numVirtualDisks as 'vm_disks',
