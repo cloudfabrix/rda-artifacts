@@ -229,7 +229,7 @@
        --> @dm:map attr = 'collection_timestamp' & func = 'ts_to_datetimestr' & unit = 'ms'
        --> @dm:map attr = 'host_bios_uuid' & func = 'lower'
        --> @dm:add-missing-columns columns = 'host_os_machine_serial,host_machine_model' and value = ''
-       --> @dm:eval host_machine_type = "'VM' if 'VMware' in host_machine_model or 'Virt' in host_machine_model or 'VMware' in host_hyperv_vendor or 'Microsoft' in host_hyperv_vendor or 'Xen' in host_hyperv_vendor or 'Xen' in host_machine_vendor or 'VMware' in host_os_machine_serial else 'Baremetal' "
+       --> @dm:eval host_machine_type = "'VM' if 'VMware' in host_machine_model or 'Virt' in host_machine_model or 'oVirt' in host_machine_vendor or 'VMware' in host_hyperv_vendor or 'Microsoft' in host_hyperv_vendor or 'Xen' in host_hyperv_vendor or 'Xen' in host_machine_vendor or 'VMware' in host_os_machine_serial else 'Baremetal'"
        --> @dm:eval host_machine_vendor = "'VMware_vSphere' if 'VMware' in host_machine_vendor or 'VMware' in host_os_machine_serial or 'VMware' in host_hyperv_vendor else 'Microsoft_Hyper-V' if 'Microsoft' in host_machine_vendor else 'Xen_Hypervisor' if 'Xen' in host_machine_vendor else 'HPE' if host_machine_vendor == 'HP' else 'Huawei' if 'Huawei' in host_machine_vendor else 'Unknown' if host_machine_vendor == '' else host_machine_vendor"
        --> @dm:eval host_os_version = "host_os_temp if rhel_release == '' else rhel_release"
        --> @dm:eval host_memory_gb = "round(int(host_memory_gb) / 1024 / 1024, 0) if host_memory_gb else host_memory_gb"
